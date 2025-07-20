@@ -1,0 +1,16 @@
+*.csv
+abc/
+checkpoint/
+*.pt
+*.pth
+*.json
+*.yaml
+FullAnnotated1000/
+FullAnnotated1000.zip
+*.zip
+*.tar.gz
+cotracker
+co-tracker
+rgb
+output_videos
+videosTensors1000
