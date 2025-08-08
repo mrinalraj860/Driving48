@@ -1,0 +1,602 @@
+Using device: cpu
+Starting training...
+Starting improved training...
+Starting Epochs
+Epoch 1/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 1/100: 100%|██████████| 442/442 [03:44<00:00,  1.97it/s, Loss=3.8026, Acc=4.61%, LR=6.36e-05]
+Validating: 100%|██████████| 209/209 [29:49<00:00,  8.56s/it]
+cuda
+
+Epoch [1/100]:
+Train Loss: 3.8026, Train Acc: 4.61%
+Val Loss: 3.7080, Val Acc: 5.96%, Val F1: 2.89%
+Learning Rate: 6.36e-05
+🎉 New best model saved! Acc: 5.96%, F1: 2.89%
+================================================================================
+Epoch 2/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 2/100: 100%|██████████| 442/442 [03:13<00:00,  2.29it/s, Loss=3.7197, Acc=7.31%, LR=6.59e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [2/100]:
+Train Loss: 3.7197, Train Acc: 7.31%
+Val Loss: 3.6373, Val Acc: 7.31%, Val F1: 3.71%
+Learning Rate: 6.59e-05
+🎉 New best model saved! Acc: 7.31%, F1: 3.71%
+================================================================================
+Epoch 3/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 3/100: 100%|██████████| 442/442 [03:09<00:00,  2.34it/s, Loss=3.6604, Acc=7.54%, LR=9.95e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [3/100]:
+Train Loss: 3.6604, Train Acc: 7.54%
+Val Loss: 3.5955, Val Acc: 8.57%, Val F1: 4.87%
+Learning Rate: 9.95e-05
+🎉 New best model saved! Acc: 8.57%, F1: 4.87%
+================================================================================
+Epoch 4/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 4/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.6062, Acc=8.84%, LR=6.71e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [4/100]:
+Train Loss: 3.6062, Train Acc: 8.84%
+Val Loss: 3.5165, Val Acc: 8.12%, Val F1: 4.76%
+Learning Rate: 6.71e-05
+================================================================================
+Epoch 5/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 5/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.5342, Acc=9.70%, LR=1.64e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.86it/s]
+cuda
+
+Epoch [5/100]:
+Train Loss: 3.5342, Train Acc: 9.70%
+Val Loss: 3.4919, Val Acc: 8.99%, Val F1: 5.97%
+Learning Rate: 1.64e-05
+🎉 New best model saved! Acc: 8.99%, F1: 5.97%
+================================================================================
+Epoch 6/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 6/100: 100%|██████████| 442/442 [03:04<00:00,  2.40it/s, Loss=3.5177, Acc=10.52%, LR=9.96e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [6/100]:
+Train Loss: 3.5177, Train Acc: 10.52%
+Val Loss: 3.4968, Val Acc: 9.11%, Val F1: 5.69%
+Learning Rate: 9.96e-05
+🎉 New best model saved! Acc: 9.11%, F1: 5.69%
+================================================================================
+Epoch 7/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 7/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.4691, Acc=10.74%, LR=8.93e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [7/100]:
+Train Loss: 3.4691, Train Acc: 10.74%
+Val Loss: 3.4635, Val Acc: 8.24%, Val F1: 5.91%
+Learning Rate: 8.93e-05
+================================================================================
+Epoch 8/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 8/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.4151, Acc=11.59%, LR=6.77e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [8/100]:
+Train Loss: 3.4151, Train Acc: 11.59%
+Val Loss: 3.4003, Val Acc: 9.41%, Val F1: 6.73%
+Learning Rate: 6.77e-05
+🎉 New best model saved! Acc: 9.41%, F1: 6.73%
+================================================================================
+Epoch 9/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 9/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.3660, Acc=11.71%, LR=4.10e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.89it/s]
+cuda
+
+Epoch [9/100]:
+Train Loss: 3.3660, Train Acc: 11.71%
+Val Loss: 3.3975, Val Acc: 10.01%, Val F1: 6.52%
+Learning Rate: 4.10e-05
+🎉 New best model saved! Acc: 10.01%, F1: 6.52%
+================================================================================
+Epoch 10/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 10/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.3286, Acc=12.87%, LR=1.69e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.87it/s]
+cuda
+
+Epoch [10/100]:
+Train Loss: 3.3286, Train Acc: 12.87%
+Val Loss: 3.3535, Val Acc: 12.17%, Val F1: 8.66%
+Learning Rate: 1.69e-05
+🎉 New best model saved! Acc: 12.17%, F1: 8.66%
+================================================================================
+Epoch 11/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 11/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.3258, Acc=13.07%, LR=2.30e-06]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [11/100]:
+Train Loss: 3.3258, Train Acc: 13.07%
+Val Loss: 3.3439, Val Acc: 11.60%, Val F1: 8.34%
+Learning Rate: 2.30e-06
+================================================================================
+Epoch 12/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 12/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.3231, Acc=13.28%, LR=9.96e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [12/100]:
+Train Loss: 3.3231, Train Acc: 13.28%
+Val Loss: 3.3583, Val Acc: 11.60%, Val F1: 7.97%
+Learning Rate: 9.96e-05
+================================================================================
+Epoch 13/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 13/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.3046, Acc=13.69%, LR=9.62e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.86it/s]
+cuda
+
+Epoch [13/100]:
+Train Loss: 3.3046, Train Acc: 13.69%
+Val Loss: 3.3458, Val Acc: 12.29%, Val F1: 9.91%
+Learning Rate: 9.62e-05
+🎉 New best model saved! Acc: 12.29%, F1: 9.91%
+================================================================================
+Epoch 14/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 14/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.2464, Acc=13.58%, LR=8.95e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.86it/s]
+cuda
+
+Epoch [14/100]:
+Train Loss: 3.2464, Train Acc: 13.58%
+Val Loss: 3.2910, Val Acc: 12.89%, Val F1: 9.70%
+Learning Rate: 8.95e-05
+🎉 New best model saved! Acc: 12.89%, F1: 9.70%
+================================================================================
+Epoch 15/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 15/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.2104, Acc=14.36%, LR=7.98e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.87it/s]
+cuda
+
+Epoch [15/100]:
+Train Loss: 3.2104, Train Acc: 14.36%
+Val Loss: 3.3078, Val Acc: 12.56%, Val F1: 10.41%
+Learning Rate: 7.98e-05
+================================================================================
+Epoch 16/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 16/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.1714, Acc=14.78%, LR=6.79e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [16/100]:
+Train Loss: 3.1714, Train Acc: 14.78%
+Val Loss: 3.2455, Val Acc: 14.35%, Val F1: 11.86%
+Learning Rate: 6.79e-05
+🎉 New best model saved! Acc: 14.35%, F1: 11.86%
+================================================================================
+Epoch 17/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 17/100: 100%|██████████| 442/442 [03:01<00:00,  2.43it/s, Loss=3.1311, Acc=15.93%, LR=5.48e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [17/100]:
+Train Loss: 3.1311, Train Acc: 15.93%
+Val Loss: 3.2592, Val Acc: 14.29%, Val F1: 11.88%
+Learning Rate: 5.48e-05
+================================================================================
+Epoch 18/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 18/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.1251, Acc=16.58%, LR=4.13e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [18/100]:
+Train Loss: 3.1251, Train Acc: 16.58%
+Val Loss: 3.2375, Val Acc: 15.64%, Val F1: 13.00%
+Learning Rate: 4.13e-05
+🎉 New best model saved! Acc: 15.64%, F1: 13.00%
+================================================================================
+Epoch 19/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 19/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.0809, Acc=17.50%, LR=2.84e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [19/100]:
+Train Loss: 3.0809, Train Acc: 17.50%
+Val Loss: 3.2108, Val Acc: 14.44%, Val F1: 12.06%
+Learning Rate: 2.84e-05
+================================================================================
+Epoch 20/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 20/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.0677, Acc=17.10%, LR=1.71e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.89it/s]
+cuda
+
+Epoch [20/100]:
+Train Loss: 3.0677, Train Acc: 17.10%
+Val Loss: 3.2191, Val Acc: 14.74%, Val F1: 12.06%
+Learning Rate: 1.71e-05
+================================================================================
+Epoch 21/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 21/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.0602, Acc=18.23%, LR=8.22e-06]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [21/100]:
+Train Loss: 3.0602, Train Acc: 18.23%
+Val Loss: 3.1989, Val Acc: 15.13%, Val F1: 12.74%
+Learning Rate: 8.22e-06
+================================================================================
+Epoch 22/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 22/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.0193, Acc=18.33%, LR=2.39e-06]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [22/100]:
+Train Loss: 3.0193, Train Acc: 18.33%
+Val Loss: 3.1926, Val Acc: 15.40%, Val F1: 13.05%
+Learning Rate: 2.39e-06
+================================================================================
+Epoch 23/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 23/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.0386, Acc=18.15%, LR=3.85e-08]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.87it/s]
+cuda
+
+Epoch [23/100]:
+Train Loss: 3.0386, Train Acc: 18.15%
+Val Loss: 3.1912, Val Acc: 15.37%, Val F1: 12.95%
+Learning Rate: 3.85e-08
+================================================================================
+Epoch 24/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 24/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.0978, Acc=16.64%, LR=9.97e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.85it/s]
+cuda
+
+Epoch [24/100]:
+Train Loss: 3.0978, Train Acc: 16.64%
+Val Loss: 3.2061, Val Acc: 14.26%, Val F1: 11.46%
+Learning Rate: 9.97e-05
+================================================================================
+Epoch 25/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 25/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=3.0554, Acc=17.09%, LR=9.84e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [25/100]:
+Train Loss: 3.0554, Train Acc: 17.09%
+Val Loss: 3.2215, Val Acc: 14.74%, Val F1: 11.95%
+Learning Rate: 9.84e-05
+================================================================================
+Epoch 26/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 26/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.0144, Acc=18.19%, LR=9.63e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [26/100]:
+Train Loss: 3.0144, Train Acc: 18.19%
+Val Loss: 3.2232, Val Acc: 15.28%, Val F1: 13.48%
+Learning Rate: 9.63e-05
+================================================================================
+Epoch 27/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 27/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=3.0003, Acc=18.59%, LR=9.33e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [27/100]:
+Train Loss: 3.0003, Train Acc: 18.59%
+Val Loss: 3.2411, Val Acc: 14.83%, Val F1: 12.96%
+Learning Rate: 9.33e-05
+================================================================================
+Epoch 28/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 28/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.9676, Acc=19.47%, LR=8.95e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [28/100]:
+Train Loss: 2.9676, Train Acc: 19.47%
+Val Loss: 3.2094, Val Acc: 16.09%, Val F1: 13.91%
+Learning Rate: 8.95e-05
+🎉 New best model saved! Acc: 16.09%, F1: 13.91%
+================================================================================
+Epoch 29/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 29/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.9523, Acc=20.17%, LR=8.51e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [29/100]:
+Train Loss: 2.9523, Train Acc: 20.17%
+Val Loss: 3.1945, Val Acc: 15.91%, Val F1: 14.36%
+Learning Rate: 8.51e-05
+================================================================================
+Epoch 30/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 30/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.9283, Acc=20.85%, LR=7.99e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [30/100]:
+Train Loss: 2.9283, Train Acc: 20.85%
+Val Loss: 3.1983, Val Acc: 14.53%, Val F1: 12.81%
+Learning Rate: 7.99e-05
+================================================================================
+Epoch 31/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 31/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.9012, Acc=20.57%, LR=7.42e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [31/100]:
+Train Loss: 2.9012, Train Acc: 20.57%
+Val Loss: 3.2675, Val Acc: 13.84%, Val F1: 11.43%
+Learning Rate: 7.42e-05
+================================================================================
+Epoch 32/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 32/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.8678, Acc=21.40%, LR=6.81e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [32/100]:
+Train Loss: 2.8678, Train Acc: 21.40%
+Val Loss: 3.1735, Val Acc: 15.76%, Val F1: 13.32%
+Learning Rate: 6.81e-05
+================================================================================
+Epoch 33/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 33/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.8321, Acc=22.76%, LR=6.16e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.85it/s]
+cuda
+
+Epoch [33/100]:
+Train Loss: 2.8321, Train Acc: 22.76%
+Val Loss: 3.1715, Val Acc: 16.51%, Val F1: 13.97%
+Learning Rate: 6.16e-05
+🎉 New best model saved! Acc: 16.51%, F1: 13.97%
+================================================================================
+Epoch 34/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 34/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.8378, Acc=22.14%, LR=5.49e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.86it/s]
+cuda
+
+Epoch [34/100]:
+Train Loss: 2.8378, Train Acc: 22.14%
+Val Loss: 3.1248, Val Acc: 16.87%, Val F1: 15.23%
+Learning Rate: 5.49e-05
+🎉 New best model saved! Acc: 16.87%, F1: 15.23%
+================================================================================
+Epoch 35/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 35/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7965, Acc=23.82%, LR=4.82e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [35/100]:
+Train Loss: 2.7965, Train Acc: 23.82%
+Val Loss: 3.1597, Val Acc: 15.85%, Val F1: 14.68%
+Learning Rate: 4.82e-05
+================================================================================
+Epoch 36/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 36/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.7974, Acc=22.99%, LR=4.14e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [36/100]:
+Train Loss: 2.7974, Train Acc: 22.99%
+Val Loss: 3.1234, Val Acc: 17.35%, Val F1: 15.53%
+Learning Rate: 4.14e-05
+🎉 New best model saved! Acc: 17.35%, F1: 15.53%
+================================================================================
+Epoch 37/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 37/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7843, Acc=24.20%, LR=3.48e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.89it/s]
+cuda
+
+Epoch [37/100]:
+Train Loss: 2.7843, Train Acc: 24.20%
+Val Loss: 3.1168, Val Acc: 17.32%, Val F1: 15.90%
+Learning Rate: 3.48e-05
+================================================================================
+Epoch 38/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 38/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7815, Acc=23.53%, LR=2.85e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [38/100]:
+Train Loss: 2.7815, Train Acc: 23.53%
+Val Loss: 3.1051, Val Acc: 17.83%, Val F1: 16.07%
+Learning Rate: 2.85e-05
+🎉 New best model saved! Acc: 17.83%, F1: 16.07%
+================================================================================
+Epoch 39/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 39/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.7395, Acc=24.78%, LR=2.26e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [39/100]:
+Train Loss: 2.7395, Train Acc: 24.78%
+Val Loss: 3.1436, Val Acc: 17.05%, Val F1: 15.63%
+Learning Rate: 2.26e-05
+================================================================================
+Epoch 40/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 40/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7474, Acc=24.90%, LR=1.72e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [40/100]:
+Train Loss: 2.7474, Train Acc: 24.90%
+Val Loss: 3.1099, Val Acc: 17.14%, Val F1: 16.12%
+Learning Rate: 1.72e-05
+================================================================================
+Epoch 41/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 41/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.7483, Acc=25.29%, LR=1.24e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [41/100]:
+Train Loss: 2.7483, Train Acc: 25.29%
+Val Loss: 3.0833, Val Acc: 18.28%, Val F1: 16.72%
+Learning Rate: 1.24e-05
+🎉 New best model saved! Acc: 18.28%, F1: 16.72%
+================================================================================
+Epoch 42/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 42/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7210, Acc=26.03%, LR=8.31e-06]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [42/100]:
+Train Loss: 2.7210, Train Acc: 26.03%
+Val Loss: 3.1035, Val Acc: 17.65%, Val F1: 16.13%
+Learning Rate: 8.31e-06
+================================================================================
+Epoch 43/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 43/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.6992, Acc=25.12%, LR=4.96e-06]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.87it/s]
+cuda
+
+Epoch [43/100]:
+Train Loss: 2.6992, Train Acc: 25.12%
+Val Loss: 3.1142, Val Acc: 17.62%, Val F1: 15.98%
+Learning Rate: 4.96e-06
+================================================================================
+Epoch 44/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 44/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7213, Acc=25.83%, LR=2.44e-06]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.89it/s]
+cuda
+
+Epoch [44/100]:
+Train Loss: 2.7213, Train Acc: 25.83%
+Val Loss: 3.1051, Val Acc: 17.83%, Val F1: 16.25%
+Learning Rate: 2.44e-06
+================================================================================
+Epoch 45/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 45/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.6974, Acc=26.04%, LR=7.89e-07]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [45/100]:
+Train Loss: 2.6974, Train Acc: 26.04%
+Val Loss: 3.1154, Val Acc: 18.22%, Val F1: 16.84%
+Learning Rate: 7.89e-07
+================================================================================
+Epoch 46/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 46/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.6727, Acc=26.69%, LR=4.48e-08]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.89it/s]
+cuda
+
+Epoch [46/100]:
+Train Loss: 2.6727, Train Acc: 26.69%
+Val Loss: 3.1055, Val Acc: 18.04%, Val F1: 16.64%
+Learning Rate: 4.48e-08
+================================================================================
+Epoch 47/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 47/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7522, Acc=24.22%, LR=9.99e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [47/100]:
+Train Loss: 2.7522, Train Acc: 24.22%
+Val Loss: 3.1976, Val Acc: 15.82%, Val F1: 14.01%
+Learning Rate: 9.99e-05
+================================================================================
+Epoch 48/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 48/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.7748, Acc=23.81%, LR=9.97e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [48/100]:
+Train Loss: 2.7748, Train Acc: 23.81%
+Val Loss: 3.1665, Val Acc: 17.53%, Val F1: 15.88%
+Learning Rate: 9.97e-05
+================================================================================
+Epoch 49/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 49/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7363, Acc=24.84%, LR=9.92e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.86it/s]
+cuda
+
+Epoch [49/100]:
+Train Loss: 2.7363, Train Acc: 24.84%
+Val Loss: 3.1554, Val Acc: 16.39%, Val F1: 14.83%
+Learning Rate: 9.92e-05
+================================================================================
+Epoch 50/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 50/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7246, Acc=25.65%, LR=9.84e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [50/100]:
+Train Loss: 2.7246, Train Acc: 25.65%
+Val Loss: 3.2198, Val Acc: 16.03%, Val F1: 13.93%
+Learning Rate: 9.84e-05
+================================================================================
+Epoch 51/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 51/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.7113, Acc=26.04%, LR=9.75e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.87it/s]
+cuda
+
+Epoch [51/100]:
+Train Loss: 2.7113, Train Acc: 26.04%
+Val Loss: 3.1598, Val Acc: 17.05%, Val F1: 15.89%
+Learning Rate: 9.75e-05
+================================================================================
+Epoch 52/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 52/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.7008, Acc=25.58%, LR=9.63e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.86it/s]
+cuda
+
+Epoch [52/100]:
+Train Loss: 2.7008, Train Acc: 25.58%
+Val Loss: 3.2146, Val Acc: 16.51%, Val F1: 15.65%
+Learning Rate: 9.63e-05
+================================================================================
+Epoch 53/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 53/100: 100%|██████████| 442/442 [03:03<00:00,  2.41it/s, Loss=2.6894, Acc=26.24%, LR=9.49e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.87it/s]
+cuda
+
+Epoch [53/100]:
+Train Loss: 2.6894, Train Acc: 26.24%
+Val Loss: 3.1074, Val Acc: 19.21%, Val F1: 18.05%
+Learning Rate: 9.49e-05
+🎉 New best model saved! Acc: 19.21%, F1: 18.05%
+================================================================================
+Epoch 54/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 54/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.6458, Acc=27.87%, LR=9.34e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [54/100]:
+Train Loss: 2.6458, Train Acc: 27.87%
+Val Loss: 3.1680, Val Acc: 17.41%, Val F1: 15.67%
+Learning Rate: 9.34e-05
+================================================================================
+Epoch 55/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 55/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.6351, Acc=27.36%, LR=9.16e-05]
+Validating: 100%|██████████| 209/209 [00:53<00:00,  3.88it/s]
+cuda
+
+Epoch [55/100]:
+Train Loss: 2.6351, Train Acc: 27.36%
+Val Loss: 3.1734, Val Acc: 17.89%, Val F1: 16.54%
+Learning Rate: 9.16e-05
+================================================================================
+Epoch 56/100:   0%|          | 0/442 [00:00<?, ?it/s]Device inside is cuda
+Epoch 56/100: 100%|██████████| 442/442 [03:02<00:00,  2.42it/s, Loss=2.6145, Acc=28.49%, LR=8.96e-05]
+Validating: 100%|██████████| 209/209 [00:54<00:00,  3.87it/s]
+cuda
+
+Epoch [56/100]:
+Train Loss: 2.6145, Train Acc: 28.49%
+Val Loss: 3.1524, Val Acc: 17.89%, Val F1: 17.33%
+Learning Rate: 8.96e-05
+Early stopping triggered at epoch 56
+Training finished. Best validation accuracy: 19.21%, Best F1: 18.05%
+
+
+Final Results:
+Best Validation Accuracy: 19.21%
+Best Validation F1 Score: 18.05%
+
+class_weights_loss = calculate_class_weights(train_df, NUM_CLASSES, power=0.25)
+criterion = nn.CrossEntropyLoss(
+  weight=class_weights_loss.to("cuda"),
+  label_smoothing=0.05
+)
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-2)
+
+scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=10, T_mult=2)
+
+early_stopping = EarlyStopping(patience=15, min_delta=0.001)
+
+print(model)

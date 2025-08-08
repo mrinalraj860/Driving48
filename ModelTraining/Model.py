@@ -1,53 +1,28 @@
-import torch
-import torch.nn as nn
-
-class MotionPointTransformer(nn.Module):
-    def __init__(self, dim=128, depth=4, heads=8, mlp_dim=256, num_classes=47, dropout=0.1):
+class PointTemporalGRU(nn.Module):
+    def __init__(self, num_classes=47, input_dim=2, hidden_dim=64):
         super().__init__()
-        
-        self.temporal_encoder = nn.GRU(
-            input_size=3,       # (x, y, visibility)
-            hidden_size=dim,
-            num_layers=1,
-            batch_first=True,
-            bidirectional=False
+        self.gru = nn.GRU(input_size=input_dim, hidden_size=hidden_dim,
+                          batch_first=True, bidirectional=True)
+        self.attention = nn.Sequential(
+            nn.Linear(hidden_dim * 2, 128),
+            nn.Tanh(),
+            nn.Linear(128, 1)
         )
-        
-        self.cls_token = nn.Parameter(torch.zeros(1, 1, dim))
-        nn.init.trunc_normal_(self.cls_token, std=0.02)
-        
-        self.point_pos_emb = nn.Parameter(torch.zeros(1, 1000 + 1, dim))  # 1000 points + cls
-        nn.init.trunc_normal_(self.point_pos_emb, std=0.02)
-
-        encoder_layer = nn.TransformerEncoderLayer(
-            d_model=dim,
-            nhead=heads,
-            dim_feedforward=mlp_dim,
-            dropout=dropout,
-            activation='gelu',
-            batch_first=True,
-            norm_first=True
+        self.fc = nn.Sequential(
+            nn.LayerNorm(hidden_dim * 2),
+            nn.Linear(hidden_dim * 2, num_classes)
         )
-        
-        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=depth)
-        self.fc = nn.Linear(dim, num_classes)
 
     def forward(self, x):
-        # x: [B, N=1000, T, 3]
         B, N, T, C = x.shape
+        x = x.view(B * N, T, C)                         # [B*N, T, 2]
+        out, _ = self.gru(x)                            # [B*N, T, 2*hidden]
+        feat = out[:, -1, :]                            # Use last timestep
+        feat = feat.view(B, N, -1)                      # [B, N, 2*hidden]
+        
+        # Attention across points
+        attn = self.attention(feat)                     # [B, N, 1]
+        attn = torch.softmax(attn, dim=1)
+        global_feat = torch.sum(attn * feat, dim=1)     # [B, 2*hidden]
 
-        # Flatten batch and point dim for GRU
-        x = x.reshape(B * N, T, C)  # [B*N, T, 3]
-        x, _ = self.temporal_encoder(x)  # [B*N, T, dim]
-        x = x[:, -1, :]  # take final timestep → [B*N, dim]
-        x = x.reshape(B, N, -1)  # [B, N, dim]
-
-        # Add cls token and point positional embeddings
-        cls_token = self.cls_token.expand(B, -1, -1)  # [B, 1, dim]
-        x = torch.cat([cls_token, x], dim=1)          # [B, N+1, dim]
-        x = x + self.point_pos_emb[:, :x.size(1), :]
-
-        # Transformer across points (not time)
-        x = self.transformer(x)  # [B, N+1, dim]
-
-        return self.fc(x[:, 0])  # [B, num_classes]
+        return self.fc(global_feat)

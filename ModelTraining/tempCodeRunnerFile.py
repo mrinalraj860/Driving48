@@ -1,1 +1,1 @@
-32
+model_epoch_68_acc_80

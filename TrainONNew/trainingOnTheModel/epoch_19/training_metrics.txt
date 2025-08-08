@@ -1,0 +1,2 @@
+Epoch: 19
+Average Training Loss: 4.1930

@@ -17,7 +17,7 @@ from Model import MotionPointTransformer
 # === Config ===
 PT_FOLDER = "/Users/mrinalraj/Downloads/WebDownload/Driving48/videosTensors1000"
 DF_PATH = "/Users/mrinalraj/Downloads/WebDownload/Driving48/df_exsists.csv"
-EPOCHS = 200
+EPOCHS = 100
 BATCH_SIZE = 8
 LR = 1e-4
 DEVICE = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
@@ -93,7 +93,7 @@ for epoch in range(EPOCHS):
     for inputs, labels, _ in dataloader:
         inputs, labels = inputs.to(DEVICE).float(), labels.to(DEVICE)
         count += inputs.size(0)  # Count number of samples processed in this batch
-        print(f"Processing batch {epoch+1}, count: {count} | Inputs shape: {inputs.shape}, Labels shape: {labels.shape}")
+        # print(f"Processing batch {epoch+1}, count: {count} | Inputs shape: {inputs.shape}, Labels shape: {labels.shape}")
         # NaN and label range checks (safety)
         assert not torch.isnan(inputs).any(), "NaNs detected in inputs!"
         assert labels.min() >= 0 and labels.max() < NUM_CLASSES, "Labels out of bounds!"
@@ -118,11 +118,28 @@ for epoch in range(EPOCHS):
     train_accuracies.append(acc)
     all_preds.extend(epoch_preds)
     all_targets.extend(epoch_targets)
+    
+    # Save model if accuracy exceeds 75%
+    if acc > 75.0:
+        model_save_path = f"saved_models/model_epoch_{epoch+1}_acc_{acc:.2f}.pt"
+        os.makedirs("saved_models", exist_ok=True)
+        torch.save(model.state_dict(), model_save_path)
+        print(f"✅ Model saved at: {model_save_path} (Accuracy: {acc:.2f}%)")
+
+    if acc > 92.0:
+        print(f"🎉 Early stopping at epoch {epoch+1} with accuracy {acc:.2f}%")
+        break
 
     # Metrics computation
     precision, recall, f1, _ = precision_recall_fscore_support(
         epoch_targets, epoch_preds, labels=list(range(NUM_CLASSES)), zero_division=0
     )
+    # Print average precision/recall/F1
+    avg_precision = precision.mean() * 100
+    avg_recall = recall.mean() * 100
+    avg_f1 = f1.mean() * 100
+
+    print(f"Avg Precision: {avg_precision:.2f}%  Avg Recall: {avg_recall:.2f}%  Avg F1-Score: {avg_f1:.2f}%")
 
     per_class_metrics.append({
         'Epoch': epoch + 1,
@@ -155,12 +172,15 @@ for epoch in range(EPOCHS):
 # Save Model
 torch.save(model.state_dict(), "motion_transformer_optimized.pt")
 
+try:
 # Save training metrics
-pd.DataFrame({
-    'Epoch': list(range(1, EPOCHS + 1)),
-    'Loss': train_losses,
-    'Accuracy (%)': train_accuracies
-}).to_csv("plots/training_metrics.csv", index=False)
+    pd.DataFrame({
+        # 'Epoch': list(range(1, EPOCHS + 1)),
+        'Loss': train_losses,
+        'Accuracy (%)': train_accuracies
+    }).to_csv("plots/training_metrics.csv", index=False)
+except Exception as e:
+    print(f"Error saving training metrics: {e}")
 
 # Save precision, recall, F1
 pd.DataFrame(per_class_metrics).to_csv("plots/per_class_metrics.csv", index=False)

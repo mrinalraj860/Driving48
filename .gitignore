@@ -13,3 +13,7 @@ co-tracker
 rgb
 output_videos
 videosTensors1000
+*.mp4
+*.avi
+*.mov
+*.csv

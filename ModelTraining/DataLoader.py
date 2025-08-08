@@ -23,18 +23,18 @@ class MotionDataset(Dataset):
         
         pt_path = os.path.join(self.pt_folder, f"{vid_name}_tracking.pt")
         if not os.path.exists(pt_path):
-            raise FileNotFoundError(f"{pt_path} not found.")
+            raise FileNotFoundError(f"{pt_path} not fond.")
 
-        data = torch.load(pt_path)
+        data = torch.load(pt_path, map_location=torch.device('cpu'))
 
         seg_len, num_points = data['shape_info']
         
         pred_tracks = data['pred_tracks'].reshape(seg_len, num_points, 2) / 512
-        pred_vis = data['pred_visibility'].reshape(seg_len, num_points, 1)
+        # pred_vis = data['pred_visibility'].reshape(seg_len, num_points, 1)
         
-        input_tensor = torch.cat([pred_tracks, pred_vis], dim=-1)  # [T, N, 3]
+        # input_tensor = torch.cat([pred_tracks, pred_vis], dim=-1)  # [T, N, 3]
         
-        return input_tensor, torch.tensor(label).long(), vid_name
+        return pred_tracks, torch.tensor(label).long(), vid_name
 
 
 
