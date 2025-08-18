@@ -25,7 +25,7 @@ class EnhancedTemporalTransformerClassifier(nn.Module):
         self.classifier = nn.Sequential(
             nn.LayerNorm(d_model),
             nn.Linear(d_model, num_classes)
-        )
+        )   
 
     def forward(self, x, mask=None):
         # x: [B, T, N, 9] from dataloader

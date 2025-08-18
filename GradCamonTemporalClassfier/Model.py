@@ -76,40 +76,43 @@ class EnhancedTemporalTransformerClassifier(nn.Module):
             return output, point_features
         return output
     
+    @torch.no_grad()
+    def normalize_per_sample(self, scores):
+        # scores: [N], normalize to [0,1] robustly
+        if scores.numel() == 0:
+            return scores
+        smin, smax = scores.min(), scores.max()
+        return (scores - smin) / (smax - smin + 1e-12)
+
     def get_gradcam(self, input_tensor, target_class=None):
         """
-        Generate GradCAM for point importance
+        Per-point Grad-CAM-like saliency on the transformer features.
+        Returns: np.array of shape [N] in [0,1].
         """
         self.eval()
-        input_tensor.requires_grad_()
-        
-        # Forward pass
-        output = self.forward(input_tensor)
-        
+        device = next(self.parameters()).device
+        x = input_tensor.to(device)
+        x.requires_grad_(True)
+
+        # forward
+        logits = self.forward(x)             # sets self.features and hook to fill self.gradients
         if target_class is None:
-            target_class = output.argmax(dim=1)
-        
-        # Backward pass
-        self.zero_grad()
-        class_score = output[0, target_class[0]]
-        class_score.backward()
-        
-        # Get gradients and features
-        gradients = self.gradients[0]  # [N, d_model]
-        features = self.features[0]    # [N, d_model]
-        
-        # Calculate weights (global average pooling of gradients)
-        weights = gradients.mean(dim=1)  # [N]
-        
-        # Generate CAM
-        cam = torch.abs(weights)  # Use absolute values for importance
-        cam = F.relu(cam)
-        
-        # Normalize
-        if cam.max() > 0:
-            cam = cam / cam.max()
-            
-        return cam.detach().cpu().numpy()
+            target_class = logits.argmax(dim=1)  # [B]
+        # backward for class score (first sample only, matching your usage)
+        self.zero_grad(set_to_none=True)
+        class_score = logits[0, target_class[0]]
+        class_score.backward(retain_graph=False)
+
+        # gradients/features shapes: [B, N, d_model]
+        grads = self.gradients[0]    # [N, d_model]
+        feats = self.features[0]     # [N, d_model]
+
+        # Standard CAM weighting per point = <grad, feat> across feature dim
+        # (could also use |grad|, or grad.mean(dim=1) if you prefer)
+        point_scores = (grads * feats).sum(dim=1)          # [N]
+        point_scores = F.relu(point_scores)                # non-negative importance
+        point_scores = self.normalize_per_sample(point_scores).detach().cpu().numpy()
+        return point_scores
 
 class PointSelector:
     """Class to select best points based on various criteria"""
@@ -117,7 +120,7 @@ class PointSelector:
     @staticmethod
     def select_best_points_motion(data, n_select=100):
         """
-        Select points based on motion characteristics
+        Select points based on motion characteristics (NO visibility filtering)
         data: [B, T, N, 8] tensor
         Returns indices of best points
         """
@@ -128,22 +131,18 @@ class PointSelector:
             # Extract motion features for each point
             velocities = data[b, :, :, 3:5]  # vel_x, vel_y
             accelerations = data[b, :, :, 5:7]  # acc_x, acc_y
-            visibility = data[b, :, :, 2]  # visibility
             direction_change = data[b, :, :, 7]  # direction_change
             
             # Calculate motion magnitude
             vel_magnitude = torch.norm(velocities, dim=2)  # [T, N]
             acc_magnitude = torch.norm(accelerations, dim=2)  # [T, N]
             
-            # Score based on multiple criteria
+            # Score based on motion only (NO visibility component)
             motion_score = vel_magnitude.mean(dim=0)  # Average velocity magnitude
-            consistency_score = visibility.mean(dim=0)  # Visibility consistency
             dynamic_score = direction_change.std(dim=0)  # Direction change variability
             
-            # Combine scores (you can adjust weights)
-            scores[b] = (motion_score * 0.7 + 
-                        consistency_score * 0 + # making visibility not contribute
-                        dynamic_score * 0.3)
+            # Combine scores (only motion-based)
+            scores[b] = (motion_score * 0.7 + dynamic_score * 0.3)
         
         # Select top N points for each batch
         _, top_indices = torch.topk(scores, n_select, dim=1)
@@ -175,18 +174,18 @@ class PointTrackingVisualizer:
         self.video_height = video_height
         
     def visualize_points_movement(self, data, point_indices, save_path=None, 
-                                show_trails=True, trail_length=10):
+                                show_trails=True, trail_length=10, title_suffix=""):
         """
-        Visualize movement of selected points across frames
+        Visualize movement of selected points across frames (NO visibility filtering)
         data: [T, N, 8] - single video sequence 
         point_indices: [n_select] - indices of points to visualize
+        title_suffix: string to add to title
         """
         T, N, C = data.shape
         n_select = len(point_indices)
         
         # Extract coordinates for selected points
         positions = data[:, point_indices, :2]  # [T, n_select, 2]
-        visibility = data[:, point_indices, 2]   # [T, n_select]
         
         # Convert normalized coordinates to pixel coordinates
         positions[:, :, 0] *= self.video_width   # x coordinates
@@ -205,48 +204,29 @@ class PointTrackingVisualizer:
             colors = plt.cm.tab20(np.linspace(0, 1, 20))
             colors = np.tile(colors, (n_select // 20 + 1, 1))[:n_select]
         
-        # Initialize plot elements
-        points = []
-        trails = []
-        
-        for i in range(n_select):
-            # Point marker
-            point, = ax.plot([], [], 'o', color=colors[i], markersize=8, alpha=0.8)
-            points.append(point)
-            
-            # Trail line
-            if show_trails:
-                trail, = ax.plot([], [], '-', color=colors[i], alpha=0.6, linewidth=2)
-                trails.append(trail)
-        
         def animate(frame):
             ax.clear()
             ax.set_xlim(0, self.video_width)
             ax.set_ylim(0, self.video_height)
             ax.set_aspect('equal')
             ax.invert_yaxis()
-            ax.set_title(f'Point Tracking - Frame {frame}/{T-1}')
+            ax.set_title(f'Point Tracking{title_suffix} - Frame {frame}/{T-1}')
             
             for i in range(n_select):
-                if visibility[frame, i] > 0.5:  # Only show visible points
-                    x, y = positions[frame, i]
+                x, y = positions[frame, i]
+                
+                # Plot current point (always visible, no visibility check)
+                ax.plot(x, y, 'o', color=colors[i], markersize=8, alpha=0.8)
+                
+                # Plot trail
+                if show_trails and frame > 0:
+                    start_frame = max(0, frame - trail_length)
+                    trail_x = positions[start_frame:frame+1, i, 0]
+                    trail_y = positions[start_frame:frame+1, i, 1]
                     
-                    # Plot current point
-                    ax.plot(x, y, 'o', color=colors[i], markersize=8, alpha=0.8)
-                    
-                    # Plot trail
-                    if show_trails and frame > 0:
-                        start_frame = max(0, frame - trail_length)
-                        trail_x = positions[start_frame:frame+1, i, 0]
-                        trail_y = positions[start_frame:frame+1, i, 1]
-                        
-                        # Only plot trail for visible points
-                        visible_mask = visibility[start_frame:frame+1, i] > 0.5
-                        if visible_mask.sum() > 1:
-                            trail_x = trail_x[visible_mask]
-                            trail_y = trail_y[visible_mask]
-                            ax.plot(trail_x, trail_y, '-', color=colors[i], 
-                                   alpha=0.6, linewidth=2)
+                    # Plot full trail (no visibility filtering)
+                    ax.plot(trail_x, trail_y, '-', color=colors[i], 
+                           alpha=0.6, linewidth=2)
             
             ax.grid(True, alpha=0.3)
             return []
@@ -258,6 +238,142 @@ class PointTrackingVisualizer:
         if save_path:
             anim.save(save_path, writer='pillow', fps=10)
             print(f"Animation saved to {save_path}")
+        
+        plt.show()
+        return anim
+    
+    def visualize_velocity_vectors(self, data, point_indices, save_path=None, 
+                                  trail_length=10, scale_factor=50):
+        """
+        Visualize velocity vectors of selected points
+        """
+        T, N, C = data.shape
+        n_select = len(point_indices)
+        
+        # Extract data for selected points
+        positions = data[:, point_indices, :2]  # [T, n_select, 2]
+        velocities = data[:, point_indices, 3:5]  # [T, n_select, 2]
+        
+        # Convert normalized coordinates to pixel coordinates
+        positions[:, :, 0] *= self.video_width
+        positions[:, :, 1] *= self.video_height
+        
+        # Color map
+        colors = plt.cm.tab20(np.linspace(0, 1, min(n_select, 20)))
+        if n_select > 20:
+            colors = plt.cm.tab20(np.linspace(0, 1, 20))
+            colors = np.tile(colors, (n_select // 20 + 1, 1))[:n_select]
+        
+        fig, ax = plt.subplots(figsize=(12, 8))
+        
+        def animate(frame):
+            ax.clear()
+            ax.set_xlim(0, self.video_width)
+            ax.set_ylim(0, self.video_height)
+            ax.set_aspect('equal')
+            ax.invert_yaxis()
+            ax.set_title(f'Velocity Vectors - Frame {frame}/{T-1}')
+            
+            for i in range(n_select):
+                x, y = positions[frame, i]
+                vx, vy = velocities[frame, i]
+                
+                # Scale velocity for visualization
+                vx_scaled = vx * scale_factor
+                vy_scaled = vy * scale_factor
+                
+                # Plot point
+                ax.plot(x, y, 'o', color=colors[i], markersize=6, alpha=0.8)
+                
+                # Plot velocity vector
+                ax.arrow(x, y, vx_scaled, vy_scaled, head_width=10, head_length=15,
+                        fc=colors[i], ec=colors[i], alpha=0.7)
+                
+                # Plot trail
+                if frame > 0:
+                    start_frame = max(0, frame - trail_length)
+                    trail_x = positions[start_frame:frame+1, i, 0]
+                    trail_y = positions[start_frame:frame+1, i, 1]
+                    ax.plot(trail_x, trail_y, '-', color=colors[i], alpha=0.4, linewidth=1)
+            
+            ax.grid(True, alpha=0.3)
+            return []
+        
+        anim = animation.FuncAnimation(fig, animate, frames=T, 
+                                     interval=100, blit=False, repeat=True)
+        
+        if save_path:
+            anim.save(save_path, writer='pillow', fps=10)
+            print(f"Velocity animation saved to {save_path}")
+        
+        plt.show()
+        return anim
+    
+    def visualize_acceleration_vectors(self, data, point_indices, save_path=None, 
+                                     trail_length=10, scale_factor=200):
+        """
+        Visualize acceleration vectors of selected points
+        """
+        T, N, C = data.shape
+        n_select = len(point_indices)
+        
+        # Extract data for selected points
+        positions = data[:, point_indices, :2]  # [T, n_select, 2]
+        accelerations = data[:, point_indices, 5:7]  # [T, n_select, 2]
+        
+        # Convert normalized coordinates to pixel coordinates
+        positions[:, :, 0] *= self.video_width
+        positions[:, :, 1] *= self.video_height
+        
+        # Color map
+        colors = plt.cm.tab20(np.linspace(0, 1, min(n_select, 20)))
+        if n_select > 20:
+            colors = plt.cm.tab20(np.linspace(0, 1, 20))
+            colors = np.tile(colors, (n_select // 20 + 1, 1))[:n_select]
+        
+        fig, axis = plt.subplots(figsize=(12, 8))
+        
+        def animate(frame):
+            axis.clear()
+            axis.set_xlim(0, self.video_width)
+            axis.set_ylim(0, self.video_height)
+            axis.set_aspect('equal')
+            axis.invert_yaxis()
+            axis.set_title(f'Acceleration Vectors - Frame {frame}/{T-1}')
+            
+            for i in range(n_select):
+                x, y = positions[frame, i]
+                acc_x, acc_y = accelerations[frame, i]
+                
+                # Scale acceleration for visualization
+                acc_x_scaled = acc_x * scale_factor
+                acc_y_scaled = acc_y * scale_factor
+                
+                # Plot point
+                axis.plot(x, y, 'o', color=colors[i], markersize=6, alpha=0.8)
+                
+                # Plot acceleration vector (only if magnitude is significant)
+                acc_magnitude = np.sqrt(acc_x_scaled**2 + acc_y_scaled**2)
+                if acc_magnitude > 5:  # threshold to avoid cluttering with tiny vectors
+                    axis.arrow(x, y, acc_x_scaled, acc_y_scaled, head_width=8, head_length=12,
+                              fc=colors[i], ec=colors[i], alpha=0.7)
+                
+                # Plot trail
+                if frame > 0:
+                    start_frame = max(0, frame - trail_length)
+                    trail_x = positions[start_frame:frame+1, i, 0]
+                    trail_y = positions[start_frame:frame+1, i, 1]
+                    axis.plot(trail_x, trail_y, '-', color=colors[i], alpha=0.4, linewidth=1)
+            
+            axis.grid(True, alpha=0.3)
+            return []
+        
+        anim = animation.FuncAnimation(fig, animate, frames=T, 
+                                     interval=100, blit=False, repeat=True)
+        
+        if save_path:
+            anim.save(save_path, writer='pillow', fps=10)
+            print(f"Acceleration animation saved to {save_path}")
         
         plt.show()
         return anim
@@ -297,10 +413,10 @@ class PointTrackingVisualizer:
         axes[0, 1].set_xlabel('Frame')
         axes[0, 1].set_ylabel('Acceleration')
         
-        # Visibility over time
+        # Visibility over time (for information only)
         visibility = selected_data[:, :, 2]  # [T, n_select]
         axes[1, 0].plot(visibility.mean(dim=1))
-        axes[1, 0].set_title('Average Visibility')
+        axes[1, 0].set_title('Average Visibility (Not Used in Selection)')
         axes[1, 0].set_xlabel('Frame')
         axes[1, 0].set_ylabel('Visibility')
         
@@ -314,51 +430,67 @@ class PointTrackingVisualizer:
         plt.tight_layout()
         plt.show()
 
-# Example usage function
-def analyze_video_with_gradcam(model, data_tensor, method='motion', n_select=100):
+
+def analyze_video_with_comprehensive_visualization(model, data_tensor, method='motion', n_select=100,
+                                                 trail_length=15):
     """
-    Complete pipeline for point selection and visualization
-    
-    Args:
-        model: Trained EnhancedTemporalTransformerClassifier
-        data_tensor: [B, T, N, 8] input tensor
-        method: 'motion' or 'gradcam' for point selection
-        n_select: number of points to select
+    Comprehensive analysis with multiple visualizations:
+    1. Basic point tracking
+    2. Velocity vectors
+    3. Acceleration vectors
     """
     print(f"Input data shape: {data_tensor.shape}")
     B, T, N, C = data_tensor.shape
-    
-    # Initialize components
+
     selector = PointSelector()
     visualizer = PointTrackingVisualizer()
-    
-    # Select best points
+
+    # Select best points (no visibility filtering)
     if method == 'motion':
-        print("Selecting points based on motion characteristics...")
+        print("Selecting points based on motion characteristics (no visibility filter)...")
         best_indices = selector.select_best_points_motion(data_tensor, n_select)
     elif method == 'gradcam':
         print("Selecting points based on GradCAM importance...")
         best_indices = selector.select_best_points_gradcam(model, data_tensor, n_select)
     else:
         raise ValueError("Method must be 'motion' or 'gradcam'")
-    
+
     print(f"Selected {n_select} best points for each video")
-    
-    # Visualize for first video in batch
-    video_data = data_tensor[0]  # [T, N, C]
-    video_indices = best_indices[0]  # [n_select]
-    
-    print("Creating visualization...")
-    
-    # Create motion statistics plot
+
+    video_data = data_tensor[0]        # [T, N, 8]
+    video_indices = best_indices[0]    # [n_select]
+
+    print("Creating comprehensive visualizations...")
+
+    # 1. Motion statistics
     visualizer.plot_motion_statistics(video_data, video_indices)
-    
-    # Create animated visualization
-    anim = visualizer.visualize_points_movement(
-        video_data, video_indices, 
-        save_path='point_tracking.gif',
-        show_trails=True, 
-        trail_length=15
+
+    # 2. Basic point tracking
+    print("Creating basic point tracking animation...")
+    anim_basic = visualizer.visualize_points_movement(
+        video_data, video_indices,
+        save_path='point_tracking_basic.gif',
+        show_trails=True,
+        trail_length=trail_length,
+        title_suffix=" (Basic)"
     )
-    
-    return best_indices, anim
+
+    # 3. Velocity vectors
+    print("Creating velocity vector animation...")
+    anim_velocity = visualizer.visualize_velocity_vectors(
+        video_data, video_indices,
+        save_path='point_tracking_velocity.gif',
+        trail_length=trail_length,
+        scale_factor=50
+    )
+
+    # 4. Acceleration vectors
+    print("Creating acceleration vector animation...")
+    anim_acceleration = visualizer.visualize_acceleration_vectors(
+        video_data, video_indices,
+        save_path='point_tracking_acceleration.gif',
+        trail_length=trail_length,
+        scale_factor=200
+    )
+
+    return best_indices, (anim_basic, anim_velocity, anim_acceleration)

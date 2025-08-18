@@ -10,15 +10,17 @@ import matplotlib.pyplot as plt
 def main():
     # Create sample data
     BATCH_SIZE = 2
-    TEST_PT_FOLDER = "/Users/mrinalraj/Downloads/WebDownload/Driving48/Test"
-    TEST_DF_PATH = "/Users/mrinalraj/Downloads/WebDownload/Driving48/ProcessedTestCorrect.csv"
+    TEST_PT_FOLDER = "/Users/mrinalraj/Downloads/WebDownload/Driving48/videosTensors1000"
+    TEST_DF_PATH = "/Users/mrinalraj/Downloads/WebDownload/Driving48/df_exists1.csv"
     val_df = pd.read_csv(TEST_DF_PATH)
     val_dataset = MotionDataset(val_df, TEST_PT_FOLDER, training=False)
 
     print("Creating sample data...")
-    data_tensor = val_dataset[0]  # Get first sample
-    motion_tensor, label, video_name = val_dataset[0]
+    data_tensor = val_dataset[2000]  # Get first sample
+    motion_tensor, label, video_name = val_dataset[2000]
+    print("="*50)
     print(f"Sample data shape: {motion_tensor.shape}, Label: {label}, Video: {video_name}")
+    print("="*50)
     motion_tensor = motion_tensor.unsqueeze(0)
     # print(f"Sample data shape: {motion_tensor}")
     # print(f"Data shape: {motion_tensor.shape}")
@@ -35,17 +37,17 @@ def main():
     # Put model in eval mode
     model.eval()
     
-    print("\n" + "="*50)
-    print("METHOD 1: Motion-based Point Selection")
-    print("="*50)
+    # print("\n" + "="*50)
+    # print("METHOD 1: Motion-based Point Selection")
+    # print("="*50)
     
     # Method 1: Select points based on motion characteristics
-    best_indices_motion, anim_motion = analyze_video_with_gradcam(
-        model, motion_tensor, method='motion', n_select=100
-    )
+    # best_indices_motion, anim_motion = analyze_video_with_gradcam(
+    #     model, motion_tensor, method='motion', n_select=100
+    # )
     
-    print(f"Selected point indices shape: {best_indices_motion.shape}")
-    print(f"First few selected indices: {best_indices_motion[0][:10]}")
+    # print(f"Selected point indices shape: {best_indices_motion.shape}")
+    # print(f"First few selected indices: {best_indices_motion[0][:10]}")
     
     print("\n" + "="*50)
     print("METHOD 2: GradCAM-based Point Selection")
@@ -59,8 +61,8 @@ def main():
         print(f"Model output shape: {output.shape}")
     
     # Now use GradCAM for point selection
-    best_indices_gradcam, anim_gradcam = analyze_video_with_gradcam(
-        model, motion_tensor, method='gradcam', n_select=100
+    best_indices_gradcam, anim_gradcam = analyze_video_with_comprehensive_visualization(
+        model, motion_tensor, method='gradcam', n_select=100, trail_length=100
     )
     
     print(f"GradCAM selected point indices shape: {best_indices_gradcam.shape}")
@@ -72,31 +74,31 @@ def main():
     print("="*50)
     
     # Check overlap between methods
-    overlap = torch.isin(best_indices_motion[0], best_indices_gradcam[0]).sum()
-    print(f"Overlap between motion and GradCAM selection: {overlap}/100 points")
+    # overlap = torch.isin(best_indices_gradcam[0], best_indices_gradcam[0]).sum()
+    # print(f"Overlap between motion and GradCAM selection: {overlap}/100 points")
     
     # Get GradCAM scores for all points in first video
-    print("\nGetting detailed GradCAM analysis...")
-    single_video = motion_tensor[0:1]  # [1, T, N, 8]
-    gradcam_scores = model.get_gradcam(single_video)
-    print(f"GradCAM scores shape: {gradcam_scores.shape}")
-    print(f"GradCAM score range: {gradcam_scores.min():.4f} to {gradcam_scores.max():.4f}")
+    # print("\nGetting detailed GradCAM analysis...")
+    # single_video = motion_tensor[0:1]  # [1, T, N, 8]
+    # gradcam_scores = model.get_gradcam(single_video)
+    # print(f"GradCAM scores shape: {gradcam_scores.shape}")
+    # print(f"GradCAM score range: {gradcam_scores.min():.4f} to {gradcam_scores.max():.4f}")
     
-    # Show statistics about selected points
-    motion_selected_scores = gradcam_scores[best_indices_motion[0]]
-    gradcam_selected_scores = gradcam_scores[best_indices_gradcam[0]]
+    # # Show statistics about selected points
+    # motion_selected_scores = gradcam_scores[best_indices_motion[0]]
+    # gradcam_selected_scores = gradcam_scores[best_indices_gradcam[0]]
     
-    print(f"\nMotion-selected points GradCAM scores:")
-    print(f"  Mean: {motion_selected_scores.mean():.4f}")
-    print(f"  Std:  {motion_selected_scores.std():.4f}")
+    # print(f"\nMotion-selected points GradCAM scores:")
+    # print(f"  Mean: {motion_selected_scores.mean():.4f}")
+    # print(f"  Std:  {motion_selected_scores.std():.4f}")
     
-    print(f"\nGradCAM-selected points GradCAM scores:")
-    print(f"  Mean: {gradcam_selected_scores.mean():.4f}")
-    print(f"  Std:  {gradcam_selected_scores.std():.4f}")
+    # print(f"\nGradCAM-selected points GradCAM scores:")
+    # print(f"  Mean: {gradcam_selected_scores.mean():.4f}")
+    # print(f"  Std:  {gradcam_selected_scores.std():.4f}")
 
-    return model, motion_tensor, best_indices_motion, best_indices_gradcam
+    return model, motion_tensor, best_indices_gradcam
 
-# Additional utility functions for analysis
+# Additional utility functions for analysisx
 def analyze_point_importance(model, data_tensor, class_idx=0):
     """
     Analyze which points are most important for a specific class prediction
@@ -149,8 +151,8 @@ def visualize_gradcam_heatmap(gradcam_scores, video_width=384, video_height=512)
 
 if __name__ == "__main__":
     # Run the main analysis
-    model, data, motion_indices, gradcam_indices = main()
-    
+    model, data, gradcam_indices = main()
+
     # Additional analysis
     print("\n" + "="*50)
     print("DETAILED ANALYSIS")
